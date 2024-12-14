@@ -1,4 +1,4 @@
-const MyOrders = () => {
+const MyOrders = (): JSX.Element => {
   return (
     <div>
       My orders

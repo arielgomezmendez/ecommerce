@@ -1,4 +1,4 @@
-const index = () => {
+const index = (): JSX.Element => {
   return (
     <div>
       My order

@@ -1,5 +1,5 @@
 
-const MyAccount = () => {
+const MyAccount = (): JSX.Element => {
   return (
     <div>
       My Account
