@@ -1,8 +1,10 @@
+import Layout from "../../Components/Layout"
+
 const SignIn = (): JSX.Element => {
   return (
-    <div>
+    <Layout>
       Sign in
-    </div>
+    </Layout>
   )
 }
 

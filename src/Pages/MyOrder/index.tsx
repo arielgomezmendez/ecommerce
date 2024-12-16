@@ -1,8 +1,10 @@
+import Layout from "../../Components/Layout"
+
 const index = (): JSX.Element => {
   return (
-    <div>
+    <Layout>
       My order
-    </div>
+    </Layout>
   )
 }
 

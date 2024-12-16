@@ -1,8 +1,10 @@
+import Layout from "../../Components/Layout"
+
 const MyOrders = (): JSX.Element => {
   return (
-    <div>
+    <Layout>
       My orders
-    </div>
+    </Layout>
   )
 }
 

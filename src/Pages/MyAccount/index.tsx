@@ -1,9 +1,10 @@
+import Layout from "../../Components/Layout"
 
 const MyAccount = (): JSX.Element => {
   return (
-    <div>
+    <Layout>
       My Account
-    </div>
+    </Layout>
   )
 }
 
