@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../../Components/Card"
 import Layout from "../../Components/Layout"
+import { getFakeApiData } from "../../Services/data";
 
 interface Category {
   id: number;
@@ -19,17 +20,24 @@ export interface Item {
   images: string[];
 }
 
-
 const Home = (): JSX.Element => {
 
   const [items, setItems] = useState<Item[]>([]);
 
-  useEffect(() => {
-    fetch("https://api.escuelajs.co/api/v1/products")
-      .then(response => response.json())
-      .then(data => setItems(data))
+  const fetchData = async () => {
+    try {
+      const data = await getFakeApiData();
+      console.log(data);
+      setItems(data);
+    }
+    catch (error) {
+      console.log("Ocurrió un error: ", error)
+    }
+  }
 
-  }, []);
+  useEffect(() => {
+    fetchData();
+  }, [])
 
   return (
     <Layout>
