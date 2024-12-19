@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../../Components/Card"
 import Layout from "../../Components/Layout"
 import { getFakeApiData } from "../../Services/data";
+import ProductDetail from "../../Components/ProductDetail";
 
 interface Category {
   id: number;
@@ -42,13 +43,14 @@ const Home = (): JSX.Element => {
   return (
     <Layout>
       Home
-      <div className="grid grid-cols-4 gap-4 w-full max-w-screen-lg">
+      <div className="grid grid-cols-4 w-full max-w-screen-lg">
         {
           items.map((item, index) => (
             <Card data={item} key={index} />
           ))
         }
       </div>
+      <ProductDetail />
     </Layout>
   )
 }
