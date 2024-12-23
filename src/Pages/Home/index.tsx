@@ -43,7 +43,7 @@ const Home = (): JSX.Element => {
   return (
     <Layout>
       Home
-      <div className="grid grid-cols-4 w-full max-w-screen-lg">
+      <div className="grid grid-cols-3 gap-4 w-max max-w-screen-lg">
         {
           items.map((item, index) => (
             <Card data={item} key={index} />
