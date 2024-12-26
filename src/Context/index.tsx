@@ -13,7 +13,9 @@ interface ShoppingCartContextType {
   openProductDetail: () => void,
   closeProductDetail: () => void,
   setProductToShow: React.Dispatch<React.SetStateAction<Item>>,
-  productToShow: Item
+  productToShow: Item,
+  cartProducts: Item[],
+  setCartProducts: React.Dispatch<React.SetStateAction<Item[]>>
 
 }
 
@@ -34,7 +36,9 @@ const defaultValue: ShoppingCartContextType = {
     price: 2,
     title: "",
     updatedAt: "",
-  }
+  },
+  cartProducts: [],
+  setCartProducts: () => { },
 
 }
 
@@ -45,6 +49,7 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
   const [count, setCount] = useState(0);
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
 
+  //Product detail. Open/Close
   const openProductDetail = () => {
     setIsProductDetailOpen(true);
   };
@@ -53,7 +58,11 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
     setIsProductDetailOpen(false);
   };
 
+  //Product detail. Show product
   const [ productToShow, setProductToShow] = useState<Item>(defaultValue.productToShow);
+
+  //Shopping cart. Add product to cart
+  const [cartProducts, setCartProducts] = useState<Item[]>([]);
 
   return (
     <ShoppingCartContext.Provider
@@ -64,7 +73,9 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
         closeProductDetail,
         setIsProductDetailOpen,
         setProductToShow,
-        productToShow
+        productToShow,
+        cartProducts,
+        setCartProducts
       }}>
       {children}
     </ShoppingCartContext.Provider>

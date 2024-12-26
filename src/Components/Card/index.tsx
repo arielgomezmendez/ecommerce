@@ -17,6 +17,12 @@ const Card = ({ data }: CardProps): JSX.Element => {
     context.setProductToShow(productDetail);
   }
 
+  const addProductToCart = (productData: Item) => { 
+    context.setCartProducts([...context.cartProducts, productData]);
+    context.setCount(context.count + 1);
+    console.log(context.cartProducts);
+  }
+
   return (
     <div 
     onClick={()=> showProduct(data)}
@@ -27,7 +33,7 @@ const Card = ({ data }: CardProps): JSX.Element => {
         <div className="bg-white w-8 h-8 absolute top-0 right-0 rounded-lg  m-2 flex justify-center items-center">
         <ShoppingCartIcon
           className="shopping-cart-icon w-5 h-5"
-          onClick={() => context.setCount(context.count + 1)}
+          onClick={() => addProductToCart(data)}
         />
         </div>
         
