@@ -1,34 +1,39 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Card from "../../Components/Card"
 import Layout from "../../Components/Layout"
 import { getFakeApiData } from "../../Services/data";
 import ProductDetail from "../../Components/ProductDetail";
+import { ShoppingCartContext } from "../../Context";
 
-interface Category {
+export interface Category {
+  creationAt: string;
   id: number;
-  name: string;
   image: string;
+  name: string;
+  updatedAt: string;
 }
 
 //Definir el timpo de dato que se recibe de la API, segun la documentacion, y se guardara en la
 // variable de estado
 export interface Item {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
   category: Category;
+  crationAt: string;
+  description: string;
+  id: number;
   images: string[];
+  price: number;
+  title: string;
+  updatedAt: string;
 }
 
 const Home = (): JSX.Element => {
+  const context = useContext(ShoppingCartContext);
 
   const [items, setItems] = useState<Item[]>([]);
 
   const fetchData = async () => {
     try {
       const data = await getFakeApiData();
-      console.log(data);
       setItems(data);
     }
     catch (error) {
@@ -50,7 +55,10 @@ const Home = (): JSX.Element => {
           ))
         }
       </div>
-      <ProductDetail />
+      {
+        context.isProductDetailOpen && <ProductDetail />
+      }
+
     </Layout>
   )
 }
