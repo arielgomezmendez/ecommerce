@@ -4,6 +4,7 @@ import Layout from "../../Components/Layout"
 import { getFakeApiData } from "../../Services/data";
 import ProductDetail from "../../Components/ProductDetail";
 import { ShoppingCartContext } from "../../Context";
+import CheckoutSideMenu from "../../Components/CheckoutSideMenu";
 
 export interface Category {
   creationAt: string;
@@ -58,6 +59,7 @@ const Home = (): JSX.Element => {
       {
         context.isProductDetailOpen && <ProductDetail />
       }
+      {context.isCheckoutSideMenuOpen && <CheckoutSideMenu/>}
 
     </Layout>
   )

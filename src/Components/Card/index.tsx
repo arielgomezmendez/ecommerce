@@ -15,12 +15,16 @@ const Card = ({ data }: CardProps): JSX.Element => {
   const showProduct = (productDetail: Item) => {
     context.openProductDetail()
     context.setProductToShow(productDetail);
+    context.closeCheckoutSideMenu();
   }
 
-  const addProductToCart = (productData: Item) => { 
+  const addProductToCart = (event: React.MouseEvent<SVGSVGElement, MouseEvent>, productData: Item) => { 
+    event.stopPropagation();
     context.setCartProducts([...context.cartProducts, productData]);
     context.setCount(context.count + 1);
     console.log(context.cartProducts);
+    context.openCheckoutSideMenu();
+    context.closeProductDetail();
   }
 
   return (
@@ -33,7 +37,7 @@ const Card = ({ data }: CardProps): JSX.Element => {
         <div className="bg-white w-8 h-8 absolute top-0 right-0 rounded-lg  m-2 flex justify-center items-center">
         <ShoppingCartIcon
           className="shopping-cart-icon w-5 h-5"
-          onClick={() => addProductToCart(data)}
+          onClick={(event) => addProductToCart(event,data)}
         />
         </div>
         

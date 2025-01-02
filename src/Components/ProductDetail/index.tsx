@@ -6,6 +6,7 @@ import { ShoppingCartContext } from '../../Context';
 const ProductDetail = (): JSX.Element => {
 
   const context = useContext(ShoppingCartContext);
+  console.log("Open product detail")
 
   return (
     <aside className="product-detail flex flex-col fixed right-0 border border-black rounded-lg bg-white">

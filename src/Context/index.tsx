@@ -15,7 +15,11 @@ interface ShoppingCartContextType {
   setProductToShow: React.Dispatch<React.SetStateAction<Item>>,
   productToShow: Item,
   cartProducts: Item[],
-  setCartProducts: React.Dispatch<React.SetStateAction<Item[]>>
+  setCartProducts: React.Dispatch<React.SetStateAction<Item[]>>,
+  isCheckoutSideMenuOpen:boolean,
+  setIsCheckoutSideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  openCheckoutSideMenu: () => void,
+  closeCheckoutSideMenu: () => void
 
 }
 
@@ -39,6 +43,10 @@ const defaultValue: ShoppingCartContextType = {
   },
   cartProducts: [],
   setCartProducts: () => { },
+  isCheckoutSideMenuOpen:false,
+  setIsCheckoutSideMenuOpen: () => { },
+  openCheckoutSideMenu: () => {},
+  closeCheckoutSideMenu: () => {}
 
 }
 
@@ -47,16 +55,17 @@ export const ShoppingCartContext = createContext(defaultValue);
 export const ShoppingCartProvider = ({ children }: ProviderProps) => {
 
   const [count, setCount] = useState(0);
-  const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
 
   //Product detail. Open/Close
-  const openProductDetail = () => {
-    setIsProductDetailOpen(true);
-  };
+  const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
+  const openProductDetail = () => {setIsProductDetailOpen(true)};
+  const closeProductDetail = () => {setIsProductDetailOpen(false)};
 
-  const closeProductDetail = () => {
-    setIsProductDetailOpen(false);
-  };
+  //Checkout side menu. Open/Close
+  const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false);
+  const openCheckoutSideMenu = () => {setIsCheckoutSideMenuOpen(true)};
+  const closeCheckoutSideMenu = () => {setIsCheckoutSideMenuOpen(false)};
+
 
   //Product detail. Show product
   const [ productToShow, setProductToShow] = useState<Item>(defaultValue.productToShow);
@@ -75,7 +84,11 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
         setProductToShow,
         productToShow,
         cartProducts,
-        setCartProducts
+        setCartProducts,
+        isCheckoutSideMenuOpen,
+        setIsCheckoutSideMenuOpen,
+        openCheckoutSideMenu,
+        closeCheckoutSideMenu,
       }}>
       {children}
     </ShoppingCartContext.Provider>
