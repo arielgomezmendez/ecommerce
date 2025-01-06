@@ -19,7 +19,9 @@ interface ShoppingCartContextType {
   isCheckoutSideMenuOpen:boolean,
   setIsCheckoutSideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>,
   openCheckoutSideMenu: () => void,
-  closeCheckoutSideMenu: () => void
+  closeCheckoutSideMenu: () => void,
+  showCheckIcon:boolean,
+  setShowCheckIcon: React.Dispatch<React.SetStateAction<boolean>>
 
 }
 
@@ -46,7 +48,9 @@ const defaultValue: ShoppingCartContextType = {
   isCheckoutSideMenuOpen:false,
   setIsCheckoutSideMenuOpen: () => { },
   openCheckoutSideMenu: () => {},
-  closeCheckoutSideMenu: () => {}
+  closeCheckoutSideMenu: () => {},
+  showCheckIcon: false,
+  setShowCheckIcon: () => {} 
 
 }
 
@@ -73,6 +77,9 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
   //Shopping cart. Add product to cart
   const [cartProducts, setCartProducts] = useState<Item[]>([]);
 
+  const [showCheckIcon, setShowCheckIcon] = useState(false);
+  //console.log("showCheckIcon: ", showCheckIcon)
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -89,6 +96,8 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
         setIsCheckoutSideMenuOpen,
         openCheckoutSideMenu,
         closeCheckoutSideMenu,
+        showCheckIcon, 
+        setShowCheckIcon
       }}>
       {children}
     </ShoppingCartContext.Provider>

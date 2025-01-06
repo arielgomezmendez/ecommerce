@@ -1,14 +1,24 @@
 import { XMarkIcon } from "@heroicons/react/20/solid"
+import { useContext } from "react";
+import { ShoppingCartContext } from "../../Context";
 
 interface PropsOrederCard {
   title: string,
   imageUrl: string,
-  price: number
+  price: number,
+  id: number,
 }
 
 const OrderCard = (props: PropsOrederCard):JSX.Element => {
 
-  const {title, imageUrl, price} = props;
+  const context = useContext(ShoppingCartContext);
+
+  const {title, imageUrl, price, id } = props;
+
+  const handleDelete = (productId: number) => {
+    const filteredProducts = context.cartProducts.filter(product => product.id != productId)
+    context.setCartProducts(filteredProducts);
+  }
 
   return (
     <div className="flex justify-between items-center mb-2">
@@ -20,7 +30,7 @@ const OrderCard = (props: PropsOrederCard):JSX.Element => {
       </div>
       <div className="flex justify-between items-center">
         <p className="flex items-center gap-2">{price}</p>
-        <XMarkIcon className="h-4 w-4 text-black cursor-pointer "/>
+        <XMarkIcon className="h-4 w-4 text-black cursor-pointer"  onClick={()=> handleDelete(id)} />
       </div>
     </div>
   )
