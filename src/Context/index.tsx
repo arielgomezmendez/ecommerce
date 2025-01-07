@@ -1,8 +1,22 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, Dispatch, ReactNode, useState } from "react";
 import { Item } from "../Pages/Home";
 
 interface ProviderProps {
   children: ReactNode
+}
+
+interface OrderItemType {
+  date: string,
+  products: Item[],
+  totalProducts: number,
+  totalPrice: number
+}
+
+const defaultOrderValue: OrderItemType = {
+  date:"",
+  products: [],
+  totalProducts: 0,
+  totalPrice: 0
 }
 
 interface ShoppingCartContextType {
@@ -16,13 +30,12 @@ interface ShoppingCartContextType {
   productToShow: Item,
   cartProducts: Item[],
   setCartProducts: React.Dispatch<React.SetStateAction<Item[]>>,
-  isCheckoutSideMenuOpen:boolean,
+  isCheckoutSideMenuOpen: boolean,
   setIsCheckoutSideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>,
   openCheckoutSideMenu: () => void,
   closeCheckoutSideMenu: () => void,
-  showCheckIcon:boolean,
-  setShowCheckIcon: React.Dispatch<React.SetStateAction<boolean>>
-
+  order: OrderItemType[],
+  setOrder: Dispatch<React.SetStateAction<OrderItemType[]>>
 }
 
 const defaultValue: ShoppingCartContextType = {
@@ -45,12 +58,12 @@ const defaultValue: ShoppingCartContextType = {
   },
   cartProducts: [],
   setCartProducts: () => { },
-  isCheckoutSideMenuOpen:false,
+  isCheckoutSideMenuOpen: false,
   setIsCheckoutSideMenuOpen: () => { },
-  openCheckoutSideMenu: () => {},
-  closeCheckoutSideMenu: () => {},
-  showCheckIcon: false,
-  setShowCheckIcon: () => {} 
+  openCheckoutSideMenu: () => { },
+  closeCheckoutSideMenu: () => { },
+  order: [],
+  setOrder: () => { }
 
 }
 
@@ -62,23 +75,23 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
 
   //Product detail. Open/Close
   const [isProductDetailOpen, setIsProductDetailOpen] = useState(false);
-  const openProductDetail = () => {setIsProductDetailOpen(true)};
-  const closeProductDetail = () => {setIsProductDetailOpen(false)};
+  const openProductDetail = () => { setIsProductDetailOpen(true) };
+  const closeProductDetail = () => { setIsProductDetailOpen(false) };
 
   //Checkout side menu. Open/Close
   const [isCheckoutSideMenuOpen, setIsCheckoutSideMenuOpen] = useState(false);
-  const openCheckoutSideMenu = () => {setIsCheckoutSideMenuOpen(true)};
-  const closeCheckoutSideMenu = () => {setIsCheckoutSideMenuOpen(false)};
+  const openCheckoutSideMenu = () => { setIsCheckoutSideMenuOpen(true) };
+  const closeCheckoutSideMenu = () => { setIsCheckoutSideMenuOpen(false) };
 
 
   //Product detail. Show product
-  const [ productToShow, setProductToShow] = useState<Item>(defaultValue.productToShow);
+  const [productToShow, setProductToShow] = useState<Item>(defaultValue.productToShow);
 
   //Shopping cart. Add product to cart
   const [cartProducts, setCartProducts] = useState<Item[]>([]);
 
-  const [showCheckIcon, setShowCheckIcon] = useState(false);
-  //console.log("showCheckIcon: ", showCheckIcon)
+  //Shopping cart. Order
+  const [order, setOrder] = useState<OrderItemType[]>([]);
 
   return (
     <ShoppingCartContext.Provider
@@ -96,8 +109,8 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
         setIsCheckoutSideMenuOpen,
         openCheckoutSideMenu,
         closeCheckoutSideMenu,
-        showCheckIcon, 
-        setShowCheckIcon
+        order,
+        setOrder
       }}>
       {children}
     </ShoppingCartContext.Provider>
