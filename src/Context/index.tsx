@@ -9,14 +9,16 @@ interface OrderItemType {
   date: string,
   products: Item[],
   totalProducts: number,
-  totalPrice: number
+  totalPrice: number,
+  id:number
 }
 
 const defaultOrderValue: OrderItemType = {
   date:"",
   products: [],
   totalProducts: 0,
-  totalPrice: 0
+  totalPrice: 0,
+  id:0
 }
 
 interface ShoppingCartContextType {
