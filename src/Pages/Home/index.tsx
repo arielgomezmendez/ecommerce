@@ -28,38 +28,75 @@ export interface Item {
 }
 
 const Home = (): JSX.Element => {
+
   const context = useContext(ShoppingCartContext);
 
-  const [items, setItems] = useState<Item[]>([]);
+  const [filter, setFilter] = useState<boolean>(false);
 
   const fetchData = async () => {
     try {
       const data = await getFakeApiData();
-      setItems(data);
+      context.setItems(data);
+      context.setFilteredItems([...context.items])
     }
     catch (error) {
       console.log("Ocurrió un error: ", error)
     }
   }
-
   useEffect(() => {
     fetchData();
+    setFilter(false)
   }, [])
+  
+  const filteredItemsByTitle = (searchByTitle: string) => {
+    
+    const filtered = context.items?.filter((item) => item.title.toLowerCase().includes(searchByTitle.toLowerCase()));
+    if(filtered.length > 0 ){
+      setFilter(true);
+    }
+    context.setFilteredItems(filtered);
+    return filtered;
+  }
+
+  useEffect(() => {
+    filteredItemsByTitle(context.searchByTitle);
+  }, [context.searchByTitle]);
 
   return (
     <Layout>
-      Home
+      <div className="flex w-80 items-center relative justify-center mb-3">
+        <h1 className="font-medium text-xl">Exclusive products</h1>
+      </div>
+      <input
+        type="text"
+        placeholder="Search a product"
+        className="rounded-lg border border-black w-60 p-4 mb-4 h-10 focus:outline-none"
+        onChange={(event) => context.setSearchByTitle(event.target.value)}
+      />
       <div className="grid grid-cols-3 gap-4 w-max max-w-screen-lg">
-        {
-          items.map((item, index) => (
+        {context.filteredItems.length != 0
+          ?
+          context.filteredItems.map((item, index) => (
             <Card data={item} key={index} />
           ))
+          :
+          filter == true && context.filteredItems.length == 0
+            ?
+            <h1>
+              No products found
+            </h1>
+            :
+            context.items.map((item, index) => (
+              <Card data={item} key={index} />
+            ))
+
+
         }
       </div>
       {
         context.isProductDetailOpen && <ProductDetail />
       }
-      {context.isCheckoutSideMenuOpen && <CheckoutSideMenu/>}
+      {context.isCheckoutSideMenuOpen && <CheckoutSideMenu />}
 
     </Layout>
   )

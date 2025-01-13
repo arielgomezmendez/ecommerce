@@ -10,17 +10,16 @@ interface OrderItemType {
   products: Item[],
   totalProducts: number,
   totalPrice: number,
-  id:number
+  id: number
 }
 
 const defaultOrderValue: OrderItemType = {
-  date:"",
+  date: "",
   products: [],
   totalProducts: 0,
   totalPrice: 0,
-  id:0
+  id: 0
 }
-
 interface ShoppingCartContextType {
   count: number,
   setCount: React.Dispatch<React.SetStateAction<number>>,
@@ -38,6 +37,12 @@ interface ShoppingCartContextType {
   closeCheckoutSideMenu: () => void,
   order: OrderItemType[],
   setOrder: Dispatch<React.SetStateAction<OrderItemType[]>>
+  items: Item[],
+  setItems: Dispatch<React.SetStateAction<Item[]>>,
+  searchByTitle: string,
+  setSearchByTitle: Dispatch<React.SetStateAction<string>>,
+  filteredItems: Item[],
+  setFilteredItems: Dispatch<React.SetStateAction<Item[]>>
 }
 
 const defaultValue: ShoppingCartContextType = {
@@ -65,7 +70,13 @@ const defaultValue: ShoppingCartContextType = {
   openCheckoutSideMenu: () => { },
   closeCheckoutSideMenu: () => { },
   order: [],
-  setOrder: () => { }
+  setOrder: () => { },
+  items: [],
+  setItems: () => { },
+  searchByTitle: "",
+  setSearchByTitle: () => { },
+  filteredItems: [],
+  setFilteredItems: () => { }
 
 }
 
@@ -95,6 +106,15 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
   //Shopping cart. Order
   const [order, setOrder] = useState<OrderItemType[]>([]);
 
+  //Get products from API
+  const [items, setItems] = useState<Item[]>([]);
+
+  //Get products by title
+  const [searchByTitle, setSearchByTitle] = useState<string>("");
+  //console.log(searchByTitle);
+
+  const [filteredItems, setFilteredItems] = useState<Item[]>([])
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -112,7 +132,13 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
         openCheckoutSideMenu,
         closeCheckoutSideMenu,
         order,
-        setOrder
+        setOrder,
+        items,
+        setItems,
+        searchByTitle,
+        setSearchByTitle,
+        filteredItems,
+        setFilteredItems
       }}>
       {children}
     </ShoppingCartContext.Provider>
