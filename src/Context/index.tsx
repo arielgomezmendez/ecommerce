@@ -43,6 +43,12 @@ interface ShoppingCartContextType {
   setSearchByTitle: Dispatch<React.SetStateAction<string>>,
   filteredItems: Item[],
   setFilteredItems: Dispatch<React.SetStateAction<Item[]>>
+  searchByCategory: Item[],
+  setSearchByCategory: Dispatch<React.SetStateAction<Item[]>>
+  filterByCategory: boolean,
+  setFilterByCatergory: Dispatch<React.SetStateAction<boolean>>
+  filterByName: boolean,
+  setFilterByName: Dispatch<React.SetStateAction<boolean>>
 }
 
 const defaultValue: ShoppingCartContextType = {
@@ -76,8 +82,13 @@ const defaultValue: ShoppingCartContextType = {
   searchByTitle: "",
   setSearchByTitle: () => { },
   filteredItems: [],
-  setFilteredItems: () => { }
-
+  setFilteredItems: () => { },
+  searchByCategory: [],
+  setSearchByCategory: () => { },
+  filterByCategory: false,
+  setFilterByCatergory: () => { },
+  filterByName: false,
+  setFilterByName: () => { }
 }
 
 export const ShoppingCartContext = createContext(defaultValue);
@@ -113,7 +124,13 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
   const [searchByTitle, setSearchByTitle] = useState<string>("");
   //console.log(searchByTitle);
 
-  const [filteredItems, setFilteredItems] = useState<Item[]>([])
+  const [filteredItems, setFilteredItems] = useState<Item[]>([]);
+
+  const [searchByCategory, setSearchByCategory] = useState<Item[]>([]);
+
+  const [filterByCategory, setFilterByCatergory] = useState<boolean>(false);
+
+  const [filterByName, setFilterByName] = useState<boolean>(false);
 
   return (
     <ShoppingCartContext.Provider
@@ -138,7 +155,13 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
         searchByTitle,
         setSearchByTitle,
         filteredItems,
-        setFilteredItems
+        setFilteredItems,
+        searchByCategory,
+        setSearchByCategory,
+        filterByCategory,
+        setFilterByCatergory,
+        filterByName,
+        setFilterByName
       }}>
       {children}
     </ShoppingCartContext.Provider>

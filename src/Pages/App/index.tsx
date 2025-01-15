@@ -9,6 +9,7 @@ import SignIn from "../SignIn"
 import Navbar from "../../Components/Navbar"
 import { ShoppingCartProvider } from "../../Context"
 
+
 const AppRoutes = () => {
   const routes = useRoutes([
     { path: "/", element: <Home /> },
@@ -19,6 +20,12 @@ const AppRoutes = () => {
     { path: "/my-orders/:id", element: <MyOrder /> },
     { path: "/*", element: <NotFound /> },
     { path: "/sign-in", element: <SignIn /> },
+    { path: "/clothes", element: <Home /> },
+    { path: "/furniture", element: <Home /> },
+    { path: "/electronics", element: <Home /> },
+    { path: "/toys", element: <Home /> },
+    { path: "/others", element: <Home /> },
+
   ])
 
   return routes

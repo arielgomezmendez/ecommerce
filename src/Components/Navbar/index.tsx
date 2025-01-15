@@ -8,6 +8,19 @@ const Navbar = (): JSX.Element => {
 
   const activeStyle: string = 'underline underline-offset-4';
 
+  const filterByCategoryName = (category: string) => {
+    const itemsByCategory = context.items.filter((item) => item.category.name.toLocaleLowerCase().includes(category.toLocaleLowerCase()));
+    if(itemsByCategory.length > 0 ){
+      context.setFilterByCatergory(true);
+    } 
+    console.log("itemsByCategory: ", itemsByCategory)
+    context.setSearchByCategory(itemsByCategory); 
+  }
+
+ const allItems = () => {
+  context.setFilterByCatergory(false);
+ }
+
   return (
     <nav className="flex justify-between items-center fixed z-10 w-full py-5 px-8 text-sm font-light top-0 bg-white">
       <ul className="flex items-center gap-3">
@@ -19,35 +32,52 @@ const Navbar = (): JSX.Element => {
         <li>
           <NavLink to="/" className={({ isActive }) =>
             isActive ? activeStyle : undefined
-          }>
+          }
+          onClick={()=> allItems()}
+          >
             All
           </NavLink>
         </li>
         <li>
           <NavLink to="/clothes" className={({ isActive }) =>
             isActive ? activeStyle : undefined
-          }>Clothes</NavLink>
+          }
+            onClick={() => filterByCategoryName("clothes")}>
+            Clothes
+          </NavLink>
         </li>
         <li>
           <NavLink to="/electronics" className={({ isActive }) =>
             isActive ? activeStyle : undefined
-          }>Electronics</NavLink>
+          }
+            onClick={() => filterByCategoryName("electronics")}>
+            Electronics
+          </NavLink>
         </li>
         <li>
-          <NavLink to="/furnitures" className={({ isActive }) =>
+          <NavLink to="/furniture" className={({ isActive }) =>
             isActive ? activeStyle : undefined
-          }>Furnitures</NavLink>
+          }
+            onClick={() => filterByCategoryName("furniture")}>
+            Furniture
+          </NavLink>
         </li>
         <li>
           <NavLink to="/toys" className={({ isActive }) =>
             isActive ? activeStyle : undefined
-          }>Toys</NavLink>
+          }
+            onClick={() => filterByCategoryName("toys")} >
+            Toys
+          </NavLink>
         </li>
         <li>
           <NavLink to="/others"
             className={({ isActive }) =>
               isActive ? activeStyle : undefined
-            }>Others</NavLink>
+            }
+            onClick={() => filterByCategoryName("others")}>
+            Others
+          </NavLink>
         </li>
 
       </ul>

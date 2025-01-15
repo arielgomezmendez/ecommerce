@@ -31,8 +31,6 @@ const Home = (): JSX.Element => {
 
   const context = useContext(ShoppingCartContext);
 
-  const [filter, setFilter] = useState<boolean>(false);
-
   const fetchData = async () => {
     try {
       const data = await getFakeApiData();
@@ -45,14 +43,14 @@ const Home = (): JSX.Element => {
   }
   useEffect(() => {
     fetchData();
-    setFilter(false)
+    context.setFilterByName(false);
   }, [])
-  
+
   const filteredItemsByTitle = (searchByTitle: string) => {
-    
     const filtered = context.items?.filter((item) => item.title.toLowerCase().includes(searchByTitle.toLowerCase()));
-    if(filtered.length > 0 ){
-      setFilter(true);
+
+    if (filtered.length > 0) {
+      context.setFilterByName(true);
     }
     context.setFilteredItems(filtered);
     return filtered;
@@ -61,6 +59,33 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     filteredItemsByTitle(context.searchByTitle);
   }, [context.searchByTitle]);
+
+  console.log("filterdByName: ", context.filterByName);
+  console.log("filteredItems: ", context.filteredItems);
+  console.log("filterByCategory: ", context.filterByCategory);
+
+
+  const renderContent = () => {
+    if (context.filterByName) {
+      return (
+        context.filteredItems.map((item, index) => (
+          <Card data={item} key={index} />
+        ))
+      )
+    } else if (context.filterByCategory) {
+      return (
+        context.searchByCategory.map((item, index) => (
+          <Card data={item} key={index} />
+        ))
+      )
+    } else {
+      return (
+        context.items.map((item, index) => (
+          <Card data={item} key={index} />
+        ))
+      )
+    }
+  }
 
   return (
     <Layout>
@@ -74,23 +99,34 @@ const Home = (): JSX.Element => {
         onChange={(event) => context.setSearchByTitle(event.target.value)}
       />
       <div className="grid grid-cols-3 gap-4 w-max max-w-screen-lg">
-        {context.filteredItems.length != 0
+        {
+          renderContent()
+
+        /*context.filterByCategory === true ?
+          context.searchByCategory.map((item, index) => (
+            <Card data={item} key={index} />
+          ))
+          :
+          context.items.map((item, index) => (
+            <Card data={item} key={index} />
+          ))
+        */}
+        {/*context.filteredItems.length != 0
           ?
           context.filteredItems.map((item, index) => (
             <Card data={item} key={index} />
           ))
           :
-          filter == true && context.filteredItems.length == 0
+          context.filterByName == true && context.filteredItems.length == 0
             ?
             <h1>
               No products found
             </h1>
             :
-            context.items.map((item, index) => (
-              <Card data={item} key={index} />
-            ))
-
-
+          context.items.map((item, index) => (
+            <Card data={item} key={index} />
+          ))
+            */
         }
       </div>
       {
