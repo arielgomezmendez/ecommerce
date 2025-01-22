@@ -48,7 +48,9 @@ interface ShoppingCartContextType {
   filterByCategory: boolean,
   setFilterByCatergory: Dispatch<React.SetStateAction<boolean>>
   filterByName: boolean,
-  setFilterByName: Dispatch<React.SetStateAction<boolean>>
+  setFilterByName: Dispatch<React.SetStateAction<boolean>>,
+  itemsFilteredByCategoryAndName: Item[], 
+  setItemsFilteredByCategoryAndName: Dispatch<React.SetStateAction<Item[]>>
 }
 
 const defaultValue: ShoppingCartContextType = {
@@ -88,7 +90,9 @@ const defaultValue: ShoppingCartContextType = {
   filterByCategory: false,
   setFilterByCatergory: () => { },
   filterByName: false,
-  setFilterByName: () => { }
+  setFilterByName: () => { },
+  itemsFilteredByCategoryAndName: [], 
+  setItemsFilteredByCategoryAndName: () => { },
 }
 
 export const ShoppingCartContext = createContext(defaultValue);
@@ -132,6 +136,8 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
 
   const [filterByName, setFilterByName] = useState<boolean>(false);
 
+  const [itemsFilteredByCategoryAndName, setItemsFilteredByCategoryAndName] = useState<Item[]>([]);
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -161,7 +167,9 @@ export const ShoppingCartProvider = ({ children }: ProviderProps) => {
         filterByCategory,
         setFilterByCatergory,
         filterByName,
-        setFilterByName
+        setFilterByName,
+        itemsFilteredByCategoryAndName, 
+        setItemsFilteredByCategoryAndName
       }}>
       {children}
     </ShoppingCartContext.Provider>

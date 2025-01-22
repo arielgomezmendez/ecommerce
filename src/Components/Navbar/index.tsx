@@ -8,12 +8,14 @@ const Navbar = (): JSX.Element => {
 
   const activeStyle: string = 'underline underline-offset-4';
 
+  //Filtering by name once a category filtering exists
   const filterByCategoryName = (category: string) => {
     const itemsByCategory = context.items.filter((item) => item.category.name.toLocaleLowerCase().includes(category.toLocaleLowerCase()));
     if(itemsByCategory.length > 0 ){
       context.setFilterByCatergory(true);
     } 
-    console.log("itemsByCategory: ", itemsByCategory)
+    //console.log("itemsByCategory: ", itemsByCategory)
+    context.setItemsFilteredByCategoryAndName([]);
     context.setSearchByCategory(itemsByCategory); 
   }
 

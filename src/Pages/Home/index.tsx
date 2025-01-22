@@ -31,6 +31,9 @@ const Home = (): JSX.Element => {
 
   const context = useContext(ShoppingCartContext);
 
+  const [filterCategoryAndNameStatus, setFilterCategoryAndNameStatus] = useState<boolean>(false);
+  console.log(filterCategoryAndNameStatus);
+
   const fetchData = async () => {
     try {
       const data = await getFakeApiData();
@@ -43,7 +46,7 @@ const Home = (): JSX.Element => {
   }
   useEffect(() => {
     fetchData();
-    context.setFilterByName(false);
+    //context.setFilterByName(false);
   }, [])
 
   const filteredItemsByTitle = (searchByTitle: string) => {
@@ -56,27 +59,56 @@ const Home = (): JSX.Element => {
     return filtered;
   }
 
+  const filterByTitleInCategory = () => {
+    const filterTitleCategory = context.searchByCategory.filter((item) => item.title.toLowerCase().includes(context.searchByTitle.toLowerCase()));
+    if (filterTitleCategory.length > 0) {
+      context.setItemsFilteredByCategoryAndName(filterTitleCategory);
+      setFilterCategoryAndNameStatus(true);
+    }
+    return filterTitleCategory
+  }
+
   useEffect(() => {
-    filteredItemsByTitle(context.searchByTitle);
+    if (context.filterByCategory) {
+      filterByTitleInCategory()
+    }
+    else {
+      filteredItemsByTitle(context.searchByTitle);
+    }
+
   }, [context.searchByTitle]);
 
-  console.log("filterdByName: ", context.filterByName);
-  console.log("filteredItems: ", context.filteredItems);
-  console.log("filterByCategory: ", context.filterByCategory);
+  console.log(context.itemsFilteredByCategoryAndName.length);
 
-
+  // Funcion para renderizar el contenido
   const renderContent = () => {
-    if (context.filterByName) {
+    if (context.filterByCategory) {
+
+      if (context.itemsFilteredByCategoryAndName.length > 0) {
+        return (
+          context.itemsFilteredByCategoryAndName.map((item, index) => (
+            <Card data={item} key={index} />
+          ))
+        )
+      }
+      else {
+        return (
+          context.searchByCategory.map((item, index) => (
+            <Card data={item} key={index} />
+          ))
+        )
+      }
+    }
+    else if (context.filterByName) {
       return (
-        context.filteredItems.map((item, index) => (
-          <Card data={item} key={index} />
-        ))
-      )
-    } else if (context.filterByCategory) {
-      return (
-        context.searchByCategory.map((item, index) => (
-          <Card data={item} key={index} />
-        ))
+        context.filteredItems.length == 0 ?
+          <h1>
+            No products found
+          </h1>
+          :
+          context.filteredItems.map((item, index) => (
+            <Card data={item} key={index} />
+          ))
       )
     } else {
       return (
